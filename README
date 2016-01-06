@@ -1,3 +1,8 @@
 Written by Dan Heeks ( danheeks@gmail.com ), derived from the kbool library written by Klaas Holwerda http://boolean.klaasholwerda.nl/bool.html
 
 LibAREA is a library that allows for creating toolpaths for pocketing
+
+This version is tweaked in (at least) the following ways:
+
+-Fixed CMakeLists.txt from https://github.com/aewallin/libarea
+-Modified CDxfRead::DoRead to properly read units from DXF files

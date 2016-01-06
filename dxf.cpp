@@ -1367,14 +1367,28 @@ bool CDxfRead::ReadLayer()
 void CDxfRead::DoRead(const bool ignore_errors /* = false */ )
 {
 	m_ignore_errors = ignore_errors;
-	if(m_fail)return;
+	if(m_fail)
+	{
+		printf ("DoRead: FAIL\n");
+		return;
+	}
 
 	get_line();
 
 	while(!((*m_ifs).eof()))
 	{
-		if (!strcmp( m_str, "$INSUNITS" )){
-			if (!ReadUnits())return;
+		//hackaround to read units
+		if (!strcmp( m_str, "FFFF" ))
+		{
+			get_line();
+		}
+		else if (!strcmp( m_str, "$INSUNITS" )){
+			printf("FOUND UNITS\n");
+			if (!ReadUnits())
+			{
+				printf("Failed reading units\n");
+				return;
+			}
 			continue;
 		} // End if - then
 
