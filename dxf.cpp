@@ -1377,12 +1377,8 @@ void CDxfRead::DoRead(const bool ignore_errors /* = false */ )
 
 	while(!((*m_ifs).eof()))
 	{
-		//hackaround to read units
-		if (!strcmp( m_str, "FFFF" ))
+		if (!strcmp( m_str, "$INSUNITS" ))
 		{
-			get_line();
-		}
-		else if (!strcmp( m_str, "$INSUNITS" )){
 			printf("FOUND UNITS\n");
 			if (!ReadUnits())
 			{
@@ -1392,7 +1388,8 @@ void CDxfRead::DoRead(const bool ignore_errors /* = false */ )
 			continue;
 		} // End if - then
 
-		else if (!strcmp( m_str, "AcDbBlockBegin" )){
+		else if (!strcmp( m_str, "AcDbBlockBegin" ))
+		{
 			get_line();
 
 			if (! strcmp(m_str,"2"))
@@ -1401,107 +1398,118 @@ void CDxfRead::DoRead(const bool ignore_errors /* = false */ )
 			    strcpy(m_block_name, m_str);
 			}
 		} // End if - then
-		else if(!strcmp(m_str, "0"))
-		{
-			get_line();
-			if (!strcmp( m_str, "SECTION" )){
-			  get_line();
-			  get_line();
-			  strcpy(m_section_name, m_str);
-			  strcpy(m_block_name, "");
 
+		else if (!strcmp( m_str, "SECTION" ))
+		{
+		  get_line();
+		  get_line();
+		  strcpy(m_section_name, m_str);
+		  strcpy(m_block_name, "");
 		} // End if - then
-		else if (!strcmp( m_str, "TABLE" )){
+		
+		else if (!strcmp( m_str, "TABLE" ))
+		{
 			  get_line();
 			  get_line();
 		}
 
-		else if (!strcmp( m_str, "LAYER" )){
-			  get_line();
-			  get_line();
-			  if(!ReadLayer())
-			    {
-			      printf("CDxfRead::DoRead() Failed to read layer\n");
-			      return;
-			    }
-			  continue;		}
+		else if (!strcmp( m_str, "LAYER" ))
+		{
+			get_line();
+			get_line();
+			if(!ReadLayer())
+			{
+				printf("CDxfRead::DoRead() Failed to read layer\n");
+				return;
+			}
+			continue;
+		}
 
-		else if (!strcmp( m_str, "ENDSEC" )){
-                    strcpy(m_section_name, "");
-                    strcpy(m_block_name, "");
-                } // End if - then
-		else if(!strcmp(m_str, "LINE")){
-				if(!ReadLine())
-				{
-				    printf("CDxfRead::DoRead() Failed to read line\n");
-				    return;
-				}
-				continue;
+		else if (!strcmp( m_str, "ENDSEC" ))
+		{
+			strcpy(m_section_name, "");
+			strcpy(m_block_name, "");
+		} // End if - then
+		else if(!strcmp(m_str, "LINE"))
+		{
+			if(!ReadLine())
+			{
+				printf("CDxfRead::DoRead() Failed to read line\n");
+				return;
 			}
-			else if(!strcmp(m_str, "ARC")){
-				if(!ReadArc())
-				{
-				    printf("CDxfRead::DoRead() Failed to read arc\n");
-				    return;
-				}
-				continue;
+			continue;
+		}
+		else if(!strcmp(m_str, "ARC"))
+		{
+			if(!ReadArc())
+			{
+				printf("CDxfRead::DoRead() Failed to read arc\n");
+				return;
 			}
-			else if(!strcmp(m_str, "CIRCLE")){
-				if(!ReadCircle())
-				{
-				    printf("CDxfRead::DoRead() Failed to read circle\n");
-				    return;
-				}
-				continue;
+			continue;
+		}
+		else if(!strcmp(m_str, "CIRCLE"))
+		{
+			if(!ReadCircle())
+			{
+				printf("CDxfRead::DoRead() Failed to read circle\n");
+				return;
 			}
-			else if(!strcmp(m_str, "MTEXT")){
-				if(!ReadText())
-				{
-				    printf("CDxfRead::DoRead() Failed to read text\n");
-				    return;
-				}
-				continue;
+			continue;
+		}
+		else if(!strcmp(m_str, "MTEXT"))
+		{
+			if(!ReadText())
+			{
+				printf("CDxfRead::DoRead() Failed to read text\n");
+				return;
 			}
-			else if(!strcmp(m_str, "ELLIPSE")){
-				if(!ReadEllipse())
-				{
-				    printf("CDxfRead::DoRead() Failed to read ellipse\n");
-				    return;
-				}
-				continue;
+			continue;
+		}
+		else if(!strcmp(m_str, "ELLIPSE"))
+		{
+			if(!ReadEllipse())
+			{
+				printf("CDxfRead::DoRead() Failed to read ellipse\n");
+				return;
 			}
-			else if(!strcmp(m_str, "SPLINE")){
-				if(!ReadSpline())
-				{
-				    printf("CDxfRead::DoRead() Failed to read spline\n");
-				    return;
-				}
-				continue;
+			continue;
+		}
+		else if(!strcmp(m_str, "SPLINE"))
+		{
+			if(!ReadSpline())
+			{
+				printf("CDxfRead::DoRead() Failed to read spline\n");
+				return;
 			}
-			else if (!strcmp(m_str, "LWPOLYLINE")) {
-				if(!ReadLwPolyLine())
-				{
-				    printf("CDxfRead::DoRead() Failed to read LW Polyline\n");
-				    return;
-				}
-				continue;
+			continue;
+		}
+		else if (!strcmp(m_str, "LWPOLYLINE"))
+		{
+			if(!ReadLwPolyLine())
+			{
+				printf("CDxfRead::DoRead() Failed to read LW Polyline\n");
+				return;
 			}
-			else if (!strcmp(m_str, "POLYLINE")) {
-				if(!ReadPolyLine())
-				{
-				    printf("CDxfRead::DoRead() Failed to read Polyline\n");
-				    return;
-				}
-				continue;
+			continue;
+		}
+		else if (!strcmp(m_str, "POLYLINE"))
+		{
+			if(!ReadPolyLine())
+			{
+				printf("CDxfRead::DoRead() Failed to read Polyline\n");
+				return;
 			}
-			else if (!strcmp(m_str, "POINT")) {
-				if(!ReadPoint())
-				{
-				    printf("CDxfRead::DoRead() Failed to read Point\n");
-				    return;
-				}
-				continue;
+			continue;
+		}
+		else if (!strcmp(m_str, "POINT"))
+		{
+			if(!ReadPoint())
+			{
+				printf("CDxfRead::DoRead() Failed to read Point\n");
+				return;
 			}
+			continue;
 		}
 
 		get_line();

@@ -5,4 +5,6 @@ LibAREA is a library that allows for creating toolpaths for pocketing
 This version is tweaked in (at least) the following ways:
 
 -Fixed CMakeLists.txt from https://github.com/aewallin/libarea
--Modified CDxfRead::DoRead to properly read units from DXF files
+-Modified CDxfRead::DoRead to
+	-properly read units from DXF files
+	-correct some dubious braces in if/else statements, which were causing issues with reading DXF files (eg, complaining about missing layer names)
