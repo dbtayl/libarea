@@ -268,6 +268,7 @@ BOOST_PYTHON_MODULE(area) {
         .def("Offset",&CCurve::Offset)
         .def("OffsetForward",&CCurve::OffsetForward)
         .def("GetSpans",&getCurveSpans)
+        .def("GetBox",&CCurve::GetBox)
         .def("GetFirstSpan",&getFirstCurveSpan)
         .def("GetLastSpan",&getLastCurveSpan)
         .def("Break",&CCurve::Break)
