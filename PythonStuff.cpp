@@ -251,6 +251,7 @@ BOOST_PYTHON_MODULE(area) {
 
 	bp::class_<CCurve>("Curve") 
         .def(bp::init<CCurve>())
+        .def("shiftStart", &CCurve::shiftStart)
         .def("getVertices", &getVertices)
         .def("append",&CCurve::append)
         .def("append",&append_point)

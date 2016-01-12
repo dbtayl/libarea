@@ -54,6 +54,30 @@ void CCurve::append(const CVertex& vertex)
 	m_vertices.push_back(vertex);
 }
 
+bool CCurve::shiftStart(int idx)
+{
+	//Can't shift around a non-closed curve
+	if(!this->IsClosed())
+	{
+		return false;
+	}
+	
+	//Nuke the last element- it's redundant now
+	m_vertices.pop_back();
+	
+	//Get an iterator to the last element before the one we want to become the first
+	std::list<CVertex>::iterator It = m_vertices.begin();
+	std::advance(It, idx);
+	
+	//And move the pointers around...
+	m_vertices.splice(m_vertices.end(), m_vertices, m_vertices.begin(), It);
+	
+	//Add a new element on the end, as a duplicate of the first
+	m_vertices.push_back(*(m_vertices.begin()));
+	
+	return true;
+}
+
 bool CCurve::CheckForArc(const CVertex& prev_vt, std::list<const CVertex*>& might_be_an_arc, CArc &arc_returned)
 {
 	// this examines the vertices in might_be_an_arc

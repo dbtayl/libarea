@@ -75,6 +75,10 @@ public:
 	std::list<CVertex> m_vertices;
 	void append(const CVertex& vertex);
 
+	//Moves the start/end point of the curve to the point at idx
+	//Returns true on success, false on failure
+	bool shiftStart(int idx);
+	
 	void FitArcs();
 	void UnFitArcs();
 	Point NearestPoint(const Point& p)const;
